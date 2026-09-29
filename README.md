@@ -36,7 +36,7 @@ Add Medicine → Save to Room Database → Schedule Alarm → Alarm Triggers →
 
 - data – Room Database, Entity and DAO
 - 
-otification – Alarm and Notification handling
+Notification – Alarm and Notification handling
 - ui – Add, List, Details and Settings screens
 - MainActivity – Home screen
 
