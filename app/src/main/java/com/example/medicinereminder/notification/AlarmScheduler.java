@@ -4,6 +4,9 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.provider.Settings;
+import android.net.Uri;
 
 import com.example.medicinereminder.data.Medicine;
 
@@ -42,6 +45,11 @@ public class AlarmScheduler {
                 0
         );
 
+        calendar.set(
+                Calendar.MILLISECOND,
+                0
+        );
+
         if (calendar.getTimeInMillis()
                 <= System.currentTimeMillis()) {
 
@@ -77,8 +85,8 @@ public class AlarmScheduler {
                         context,
                         medicine.getId(),
                         intent,
-                        PendingIntent.FLAG_UPDATE_CURRENT |
-                                PendingIntent.FLAG_IMMUTABLE
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                                | PendingIntent.FLAG_IMMUTABLE
                 );
 
         AlarmManager alarmManager =
@@ -86,6 +94,36 @@ public class AlarmScheduler {
                         context.getSystemService(
                                 Context.ALARM_SERVICE
                         );
+
+        if (alarmManager == null) {
+            return;
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+
+            if (!alarmManager.canScheduleExactAlarms()) {
+
+                Intent settingsIntent =
+                        new Intent(
+                                Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
+                        );
+
+                settingsIntent.setData(
+                        Uri.parse(
+                                "package:" +
+                                        context.getPackageName()
+                        )
+                );
+
+                settingsIntent.addFlags(
+                        Intent.FLAG_ACTIVITY_NEW_TASK
+                );
+
+                context.startActivity(settingsIntent);
+
+                return;
+            }
+        }
 
         alarmManager.setExactAndAllowWhileIdle(
                 AlarmManager.RTC_WAKEUP,
@@ -109,8 +147,8 @@ public class AlarmScheduler {
                         context,
                         medicine.getId(),
                         intent,
-                        PendingIntent.FLAG_UPDATE_CURRENT |
-                                PendingIntent.FLAG_IMMUTABLE
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                                | PendingIntent.FLAG_IMMUTABLE
                 );
 
         AlarmManager alarmManager =
@@ -119,6 +157,8 @@ public class AlarmScheduler {
                                 Context.ALARM_SERVICE
                         );
 
-        alarmManager.cancel(pendingIntent);
+        if (alarmManager != null) {
+            alarmManager.cancel(pendingIntent);
+        }
     }
 }

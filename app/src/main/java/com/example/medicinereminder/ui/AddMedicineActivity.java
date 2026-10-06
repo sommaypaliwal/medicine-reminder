@@ -197,6 +197,28 @@ public class AddMedicineActivity extends AppCompatActivity {
             return;
         }
 
+        MedicineDatabase database =
+                MedicineDatabase.getInstance(this);
+
+        Medicine existingMedicine =
+                database
+                        .medicineDao()
+                        .getMedicineByNameAndTime(
+                                name,
+                                selectedTime
+                        );
+
+        if (existingMedicine != null) {
+
+            Toast.makeText(
+                    this,
+                    "Medicine already exists at this time",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+            return;
+        }
+
         Medicine medicine = new Medicine(
                 name,
                 typeSpinner.getSelectedItem().toString(),
@@ -209,8 +231,7 @@ public class AddMedicineActivity extends AppCompatActivity {
                 notes
         );
 
-        MedicineDatabase
-                .getInstance(this)
+        database
                 .medicineDao()
                 .insert(medicine);
 

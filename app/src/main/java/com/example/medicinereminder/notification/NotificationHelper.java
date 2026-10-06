@@ -23,21 +23,29 @@ public class NotificationHelper {
                         NotificationManager.IMPORTANCE_HIGH
                 );
 
+        channel.setDescription(
+                "Notifications for medicine reminders"
+        );
+
+        channel.enableVibration(true);
+
         NotificationManager manager =
                 (NotificationManager)
                         context.getSystemService(
                                 Context.NOTIFICATION_SERVICE
                         );
 
-        manager.createNotificationChannel(
-                channel
-        );
+        if (manager != null) {
+            manager.createNotificationChannel(channel);
+        }
     }
 
     public static void showNotification(
             Context context,
             String medicineName,
             String dosage) {
+
+        createChannel(context);
 
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(
@@ -59,7 +67,15 @@ public class NotificationHelper {
                         .setPriority(
                                 NotificationCompat.PRIORITY_HIGH
                         )
-                        .setAutoCancel(true);
+                        .setAutoCancel(true)
+                        .setVibrate(
+                                new long[]{
+                                        0,
+                                        500,
+                                        300,
+                                        500
+                                }
+                        );
 
         NotificationManager manager =
                 (NotificationManager)
@@ -67,9 +83,12 @@ public class NotificationHelper {
                                 Context.NOTIFICATION_SERVICE
                         );
 
-        manager.notify(
-                (int) System.currentTimeMillis(),
-                builder.build()
-        );
+        if (manager != null) {
+
+            manager.notify(
+                    (int) System.currentTimeMillis(),
+                    builder.build()
+            );
+        }
     }
 }

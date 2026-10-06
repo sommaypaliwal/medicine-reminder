@@ -10,26 +10,20 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="My Medicines"
+        android:text="Medicine History"
         android:textSize="26sp"
         android:textStyle="bold"
         android:layout_marginBottom="15dp"/>
 
-    <SearchView
-        android:id="@+id/searchView"
+    <TextView
+        android:id="@+id/emptyTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:queryHint="Search medicine"/>
-
-    <Spinner
-        android:id="@+id/typeFilterSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"/>
+        android:textSize="16sp"
+        android:padding="10dp"/>
 
     <ListView
-        android:id="@+id/medicineListView"
+        android:id="@+id/historyListView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"/>

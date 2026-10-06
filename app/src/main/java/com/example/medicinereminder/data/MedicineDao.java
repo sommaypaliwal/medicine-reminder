@@ -28,4 +28,13 @@ public interface MedicineDao {
 
     @Query("SELECT * FROM medicines WHERE name LIKE '%' || :search || '%'")
     List<Medicine> searchMedicines(String search);
+
+    @Query("SELECT * FROM medicines WHERE LOWER(name) = LOWER(:name) AND time = :time LIMIT 1")
+    Medicine getMedicineByNameAndTime(String name, String time);
+
+    @Insert
+    void insertHistory(MedicineHistory history);
+
+    @Query("SELECT * FROM medicine_history ORDER BY id DESC")
+    List<MedicineHistory> getAllHistory();
 }

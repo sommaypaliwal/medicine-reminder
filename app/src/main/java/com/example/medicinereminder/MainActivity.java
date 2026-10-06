@@ -1,10 +1,15 @@
 package com.example.medicinereminder;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.medicinereminder.notification.NotificationHelper;
 import com.example.medicinereminder.ui.AddMedicineActivity;
@@ -15,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
     Button addMedicineButton;
     Button viewMedicinesButton;
 
+    private static final int NOTIFICATION_PERMISSION_CODE = 100;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,8 +30,13 @@ public class MainActivity extends AppCompatActivity {
 
         NotificationHelper.createChannel(this);
 
-        addMedicineButton = findViewById(R.id.addMedicineButton);
-        viewMedicinesButton = findViewById(R.id.viewMedicinesButton);
+        requestNotificationPermission();
+
+        addMedicineButton =
+                findViewById(R.id.addMedicineButton);
+
+        viewMedicinesButton =
+                findViewById(R.id.viewMedicinesButton);
 
         addMedicineButton.setOnClickListener(v -> {
 
@@ -45,5 +57,25 @@ public class MainActivity extends AppCompatActivity {
 
             startActivity(intent);
         });
+    }
+
+    private void requestNotificationPermission() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(
+                        this,
+                        new String[]{
+                                Manifest.permission.POST_NOTIFICATIONS
+                        },
+                        NOTIFICATION_PERMISSION_CODE
+                );
+            }
+        }
     }
 }

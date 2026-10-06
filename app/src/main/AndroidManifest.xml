@@ -4,35 +4,42 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission
-        android:name="android.permission.POST_NOTIFICATIONS"/>
+        android:name="android.permission.POST_NOTIFICATIONS" />
 
     <uses-permission
-        android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+        android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
     <application
         android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
         android:label="Medicine Reminder"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
         android:theme="@style/Theme.MedicineReminder">
 
         <activity
             android:name=".ui.SettingsActivity"
-            android:exported="false"/>
+            android:exported="false" />
 
         <activity
             android:name=".ui.MedicineDetailActivity"
-            android:exported="false"/>
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.HistoryActivity"
+            android:exported="false" />
 
         <activity
             android:name=".ui.MedicineListActivity"
-            android:exported="false"/>
+            android:exported="false" />
 
         <activity
             android:name=".ui.AddMedicineActivity"
-            android:exported="false"/>
+            android:exported="false" />
 
         <receiver
             android:name=".notification.ReminderReceiver"
-            android:exported="false"/>
+            android:exported="false" />
 
         <activity
             android:name=".MainActivity"
@@ -41,10 +48,10 @@
             <intent-filter>
 
                 <action
-                    android:name="android.intent.action.MAIN"/>
+                    android:name="android.intent.action.MAIN" />
 
                 <category
-                    android:name="android.intent.category.LAUNCHER"/>
+                    android:name="android.intent.category.LAUNCHER" />
 
             </intent-filter>
 
